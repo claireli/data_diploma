@@ -41,6 +41,59 @@ color: #000000;
 	font-weight: 900;
 }
 
+#sample_profile{
+	margin: auto;
+    width: 60%;
+    border:3px solid #8AC007;
+    padding: 10px;
+}
+
+.three_chart{
+	margin: auto;
+	width: 80%;
+}
+
+.fraction, .top, .bottom {
+    padding: 0 5px;
+		font-family: "Times New Roman";
+		font-size: 30px;
+}
+
+.calc_result{
+    padding: 0 5px;
+		font-family: "Times New Roman";
+		font-size: 30px;
+}
+
+.fraction {
+    display: inline-block;
+    text-align: center;    
+}
+
+.bottom{
+    border-top: 1px solid #000;
+    display: block;
+}
+
+.data_table{
+	margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+.results_table{
+	border: 1px solid #8AC007;
+	padding: 10px;
+}
+
+.results_table td{
+	border: 1px solid #8AC007;
+	padding: 10px;
+}
+
+#sample_profile td{
+	border: 1px solid #8AC007;
+}
 
 
 .frame{

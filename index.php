@@ -265,8 +265,8 @@ Income Range</td><td>
 <tr>
 <td>Gender</td><td>
 <select name="gender">
-  <option value="female" name="female">Female</option>
-  <option value="male" name="male">Male</option>
+  <option value="Female" name="female">Female</option>
+  <option value="Male" name="male">Male</option>
   </select>
 </td>
 </tr>
