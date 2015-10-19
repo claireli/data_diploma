@@ -1,0 +1,113 @@
+
+h1{
+	font-family: 'Architects Daughter';
+	font-size: 40px;
+	text-align: center;
+	text-decoration: none;
+}
+
+h1 a{
+text-decoration: none;
+color: #000000;
+}
+
+#input_controller{
+	font-family: 'Architects Daughter';
+	background-color: #CCCCFF;
+	height: 500px;
+}
+
+#navigation_bar table{
+	width: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+#navigation_bar{
+	font-family: 'Architects Daughter';
+	
+	width: 100%;
+	
+}
+
+#navigation_bar a{
+	text-decoration: none;
+	font-size: 20px;
+	color: #4ccdb6;
+}
+
+#navigation_bar a:hover{
+	color: #4c8acd;
+	font-weight: 900;
+}
+
+
+
+.frame{
+	
+	height: 600px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+#geo_selection{
+	font-size: 20px;
+	border: solid 1px;
+}
+
+#location_nav{
+	
+	margin-top: -100px;
+}
+
+#location_nav td{
+	position:relative;
+    top:100;
+	color: #FFFFFF;
+	font-family: 'Source Sans Pro';
+	background: #7e939e;
+	width: 200px;
+	padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+	
+}
+
+#location_nav td:hover{
+	
+	background: #c9e5f3;
+	color: #11394e;
+	
+}
+
+#location_nav tr{
+	height: 0px;
+}
+
+#city_nav{
+	
+	margin-top: -100px;
+}
+
+#city_nav td{
+	position:relative;
+    top:100;
+	color: #FFFFFF;
+	font-family: 'Source Sans Pro';
+	background: #78cdc4;
+	width: 200px;
+	padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+	
+}
+
+#city_nav td:hover{
+	
+	background: #2d958a;
+	color: #11394e;
+
+	
+}
