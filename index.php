@@ -11,13 +11,13 @@
 
 var geocoder;
 var map;
-var address = "San Dieguito Union High";
+var address = "San Gabriel Unified";
 
 function initialize() {
   geocoder = new google.maps.Geocoder();
   var latlng = new google.maps.LatLng(-34.397, 150.644);
   var myOptions = {
-    zoom: 14,
+    zoom: 8,
     center: latlng,
     mapTypeControl: true,
     mapTypeControlOptions: {
@@ -48,6 +48,8 @@ function initialize() {
           google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
           });
+		  
+		  
 
         } else {
           alert("No results found");
@@ -59,6 +61,19 @@ function initialize() {
   }
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+
+$(function(){
+    $("#remote_controller").hide();
+	 $("#overlay").hide();
+    $("#click_input").on("click", function(){
+        $("#remote_controller, #overlay").toggle();
+    });
+	
+	   $("#close_window").on("click", function(){
+        $("#remote_controller, #overlay").hide();
+    });
+});
+
 </script>
 </head>
 <body>
@@ -72,7 +87,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <td><a href="#">How To Use This Tool</a></td>
 <td><a href="case.html">Our Case Study & Analysis</a></td>
 <td><a href="about.html">About The Developers</a></td>
-<td><a href="#">Input Controller</a></td>
+<td><a id='click_input'>Input Controller</a></td>
 </tr></table>
 </div>
 <table id='container' width="100%" height='600px'><tr>
@@ -234,6 +249,39 @@ var id = obj.id;
 				console.log(map_input);
 				 alert("GEOCODING: " + map_input);	
 				 
+				 // THIS IS WHERE YOU CHANGE THE MAP! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!
+				   
+				   var address = map_input;
+				   
+				   geocoder.geocode( { 'address': address}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							map.setCenter(results[0].geometry.location);
+							var marker = new google.maps.Marker({
+								map: map,
+								position: results[0].geometry.location
+							});
+						}	 
+						else {
+							alert("Geocode was not successful for the following reason: " + status);
+						}
+	  
+				   });
+				   
+				   var lato = new google.maps.LatLng(33.081224, -117.225205);
+				 
+				 
+				 var marker = new google.maps.Marker({
+					position: lato,
+					map: map,
+					title:"Hello World!"
+				 });
+
+				// To add the marker to the map, call setMap();
+				marker.setMap(map);
+				map.setCenter(marker.getPosition());
+				 
+				 $("#follow").remove();
+				 
 				 $( "#geo_selection" ).html( php_arr[state]["city"] + " in " + map_input + 
 				 "<input type='hidden' name='geo_selection' value='" + php_arr[state]["city"] + "'> " 
 				 + "<input type='hidden' name='geo_selection2' value='" +map_input+ "'>");
@@ -243,6 +291,60 @@ var id = obj.id;
 
 }
 </script>
+
+<div id="remote_controller">
+Input Controller Options<p>
+Student Profile Graduation Predictability Report<br>
+Geographic Comparison Mode<p>
+<form method="POST" action="calculate2.php">
+<table border='1' id="geo_option">
+<tr>
+<td>Geographic Location 1</td>
+<td>Geographic Location 2</td></tr>
+
+<tr>
+<td>
+<select>
+  <option value="volvo">Alabama</option>
+  <option value="saab">California</option>
+  <option value="mercedes">Colorado</option>
+  <option value="audi">New York</option>
+</select><p>
+
+<select name="geo_compare1">
+  <option value="volvo">Random city</option>
+  <option value="saab">San Diego</option>
+  <option value="mercedes">Austin</option>
+  <option value="audi">Chicago</option>
+</select>
+</td>
+<td>
+<select>
+  <option value="volvo">Alabama</option>
+  <option value="saab">California</option>
+  <option value="mercedes">Colorado</option>
+  <option value="audi">New York</option>
+</select><p>
+
+<select name="geo_compare2">
+  <option value="volvo">Random city</option>
+  <option value="saab">San Diego</option>
+  <option value="mercedes">San Francisco</option>
+  <option value="audi">Chicago</option>
+</select>
+</td></tr>
+
+</table>
+<p>
+<input type="submit" value="Calculate Geographic Comparison"><p>
+</form>
+<a id='close_window'>(Close Window)</a>
+</div>
+
+<div id="overlay">
+
+</div>
+
 <div id="input_controller">
 
 

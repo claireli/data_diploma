@@ -131,7 +131,19 @@ $('.fraction').each(function(key, value) {
  <td><h3>2014 Graduation Rates of Student's Gender Group</h3></td>
  <td><h3>2014 Graduation Rates of Student's Economic Group</h3></td>
  </tr>
- <tr><td></td><td></td><td></td></tr></table>
+ <tr><td>
+ 
+ </td>
+ 
+ <td>
+ <table border='1'>
+<tr><td><b>Average Graduation Rate</b></td><td></td></tr>
+<tr><td><b>Variance</b></td><td></td></tr>
+<tr><td><b>1 Standard Deviation</b></td><td></td></tr>
+</table>
+ </td>
+ 
+ <td></td></tr></table>
  <h2>At Risk Rankings</h2>
  <p><i>This is the prediction for the cohort fail rate for 2015, based off census data collected from the previous year regarding the district of <?php echo $_POST["geo_selection"] ?></i><p>
  <span class="fraction">cohort*(1-cohort_rate)/ALL*(1-all_rate)</span> =
@@ -146,11 +158,11 @@ $('.fraction').each(function(key, value) {
  
  <i>Explanation for at risk ranking blah blah stuff asldkfjas;lkdfjsldkjf </i><p>
  
-</div>
+
 <p>
 <br><br>
-<hr>
 
+<hr>
 <p>
 <table class="data_table"><tr><td>
 <i>For the above student profile, if they did not graduate, these are the most likely causes: </i><p>
@@ -176,6 +188,11 @@ $('.fraction').each(function(key, value) {
 
 </td>
 </tr></table>
+</div>
+
+
+
+
     <script data-require="d3@*" data-semver="3.4.6" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
     <script>
       (function(d3) {
