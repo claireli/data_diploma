@@ -128,6 +128,7 @@ if ($result->num_rows > 0) {
 }
 
 $result = array_unique($states);
+$result_select = array_unique($states);
 
 //print_r($result);
 
@@ -304,12 +305,18 @@ Geographic Comparison Mode<p>
 
 <tr>
 <td>
-<select>
-  <option value="volvo">Alabama</option>
-  <option value="saab">California</option>
-  <option value="mercedes">Colorado</option>
-  <option value="audi">New York</option>
-</select><p>
+<select name="state1">
+<?php
+
+foreach ($result_select as &$value) {
+    echo "<option>";
+	echo $value;
+	echo "</option>";
+	}
+
+?>
+</select>
+ <p>
 
 <select name="geo_compare1">
   <option value="volvo">Random city</option>
@@ -319,11 +326,16 @@ Geographic Comparison Mode<p>
 </select>
 </td>
 <td>
-<select>
-  <option value="volvo">Alabama</option>
-  <option value="saab">California</option>
-  <option value="mercedes">Colorado</option>
-  <option value="audi">New York</option>
+<select name="state2">
+ <?php
+
+foreach ($result_select as &$value) {
+    echo "<option>";
+	echo $value;
+	echo "</option>";
+	}
+
+?>
 </select><p>
 
 <select name="geo_compare2">
