@@ -1,7 +1,6 @@
 #LOAD DATA
 GRADUATION_WITH_CENSUS_cleansed<-read.csv("GRADUATION_WITH_CENSUS_cleansed.csv")
 RATES<-subset(GRADUATION_WITH_CENSUS_cleansed, select=c(grep("RATE_1112", colnames(GRADUATION_WITH_CENSUS_cleansed), perl=TRUE)))
-
 g<-GRADUATION_WITH_CENSUS_cleansed[,c(3,5:25,40:581)]
 # REMOVE MOE
 g<-subset(g, select=-c(grep("MOE", colnames(g), perl=TRUE)))
