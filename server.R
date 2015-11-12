@@ -1,6 +1,6 @@
 library(shiny)
 library(datasets)
-
+library(FSelector)
 # Define server logic required to summarize and view the selected
 # dataset
 shinyServer(function(input, output, session) {

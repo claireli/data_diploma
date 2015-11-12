@@ -9,6 +9,41 @@
 
 <script>
 
+var k=0;
+
+$(document).ready(function(){
+    k=$(document).height();
+	console.log(k);
+	$("#overlay").css("height", k+"px");
+});
+
+$(document).ready(function(){
+    $(".toggler").hide();
+	$("#input_controller").hide();
+});
+
+
+$(document).ready(function(){
+    $("#choice3").click(function(){
+		$(".toggler").hide();
+        $("#mode3_message").slideToggle("slow");
+    });
+});
+
+$(document).ready(function(){
+    $("#choice2").click(function(){
+		$(".toggler").hide();
+        $("#mode2_message").slideToggle("slow");
+    });
+});
+
+$(document).ready(function(){
+    $("#choice1").click(function(){
+		$(".toggler").hide();
+        $("#mode1_message").slideToggle("slow");
+    });
+});
+
 var geocoder;
 var map;
 var address = "San Gabriel Unified";
@@ -69,27 +104,125 @@ $(function(){
         $("#remote_controller, #overlay").toggle();
     });
 	
-	   $("#close_window").on("click", function(){
+	   $(".close_window").on("click", function(){
         $("#remote_controller, #overlay").hide();
     });
 });
 
+
+$(function(){
+	 $("#overlay").hide();
+    $("#click_input3").on("click", function(){
+        $("#input_controller, #overlay").toggle();
+    });
+
+	   $(".close_window").on("click", function(){
+        $("#input_controller, #overlay").hide();
+    });
+});
+
 </script>
+
+<style>
+.mode_choice{
+	
+	border-radius: 25px;
+	box-shadow: 5px 5px 5px #888888;
+	width: 300px;
+	height: 150px;
+	padding: 10px;
+	text-align: center;
+	font-family: "Source Sans Pro";
+	font-weight: 200;
+	color: #3878c7;
+	margin: 20px;
+	align: center;
+}
+
+.mode_choice:hover{
+	box-shadow: 5px 5px 5px #f59c1e;
+}
+
+#choice1{
+	
+	background-color: #b3d1ff;
+}
+
+#choice2{
+	
+	background-color: #e5efd4
+}
+
+#choice3{
+	
+	background-color: #c1d5a3;
+}
+
+#option_bar{
+	
+	margin: 0 auto;
+}
+
+.toggler{
+	width: 100%;
+	height: 55px;
+	background-color: #cadfaa;
+	padding: 10px;
+	font-family: "Source Sans Pro";
+	font-weight: bold;	
+}
+
+.toggler img{
+	height: 45px;
+	width: auto;
+}
+</style>
 </head>
 <body>
 
 <div id="header">
 <h1><a href="index.php">High School Graduation Rate, Data Analysis Tool</a></h1>
 </div>
+
 <div id="navigation_bar">
 <table><tr>
 <td><a href="index.php">Home</a></td>
 <td><a href="#">How To Use This Tool</a></td>
 <td><a href="case.html">Our Case Study & Analysis</a></td>
 <td><a href="about.html">About The Developers</a></td>
-<td><a id='click_input'>Input Controller</a></td>
+<td>Input Controller</td>
 </tr></table>
 </div>
+
+<table id="option_bar">
+<tr>
+<td>
+<a href="#step1"><div class="mode_choice" id="choice1">Mode One<p>Generate standard report on single location</div></a></td>
+<td>
+<a href="#step1"><div class="mode_choice" id="choice2">Mode Two<p>Generate cross comparison report on two locations</div></a></td>
+<td>
+<a href="#step1"><div class="mode_choice" id="choice3">Mode Three<p>Generate standard student profile<p>
+<i>We'll retrieve the standard statistics for a student of your input type, along with generating a report of our analysis on the student's graduation probability.</i>
+</div></a></td>
+</tr>
+</table>
+
+<p id="step1">
+<div id="mode1_message" class="toggler">Mode 1 selected. Please select location [Kent County selected]. Click here to continue.</div>
+<div id="mode2_message" class="toggler">
+<table><tr>
+<td width="600px">Mode 2 selected. 
+<p class="geo_selection">Please select location below.</p> 
+</td><td><img src="clairrow.png" id="click_input">Click here to continue.</td></tr></table>
+</div>
+
+<div id="mode3_message" class="toggler">
+<table><tr>
+<td width="600px">Mode 3 selected. 
+<p class="geo_selection">Please select location below.</p> 
+</td><td><img src="clairrow.png" id="click_input3">Click here to continue.</td></tr></table>
+</div>
+
 <table id='container' width="100%" height='600px'><tr>
 
 <td>
@@ -98,6 +231,8 @@ $(function(){
 
 <td width='200px'><div class='frame'>
 <?php
+error_reporting(E_ALL);
+
 	//echo "test";
 	
 	$link = mysqli_connect("localhost", "root", "", "diploma");
@@ -176,7 +311,7 @@ mysqli_close($link);
 ?>
 </td><td id="city_container" width='200px'></td></tr></table>
 <script>
-
+var chosen_location1=false;
 var php_arr = <?php echo json_encode($newdata); ?>;
 
 function retrieve_cities(retrieved_state){
@@ -249,7 +384,8 @@ var id = obj.id;
 				var map_input = (JSON.stringify(php_arr[state]["county"]).replace("\"", "" )).replace("\"", "" );
 				console.log(map_input);
 				 alert("GEOCODING: " + map_input);	
-				 
+				 chosen_location1=true;
+				 console.log(chosen_location1);
 				 // THIS IS WHERE YOU CHANGE THE MAP! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!
 				   
 				   var address = map_input;
@@ -283,7 +419,7 @@ var id = obj.id;
 				 
 				 $("#follow").remove();
 				 
-				 $( "#geo_selection" ).html( php_arr[state]["city"] + " in " + map_input + 
+				 $( ".geo_selection" ).html( php_arr[state]["city"] + " in " + map_input + 
 				 "<input type='hidden' name='geo_selection' value='" + php_arr[state]["city"] + "'> " 
 				 + "<input type='hidden' name='geo_selection2' value='" +map_input+ "'>");
 			}
@@ -350,7 +486,7 @@ foreach ($result_select as &$value) {
 <p>
 <input type="submit" value="Calculate Geographic Comparison"><p>
 </form>
-<a id='close_window'>(Close Window)</a>
+<a class='close_window'>(Close Window)</a>
 </div>
 
 <div id="overlay">
@@ -364,7 +500,7 @@ foreach ($result_select as &$value) {
 <h1>Sample High School Student</h1>
 <p>
 <u>Geographic Selection</u>
-<p id="geo_selection">
+<p class="geo_selection">
 hello world</p>
 <table id="control_content"><tr><td>
 Income Range</td><td>
@@ -409,6 +545,8 @@ Income Range</td><td>
 
 <input type="submit" value="Calculate Statistics & Graduation Likelihood">
 </form>
+<p>
+<a class='close_window'>(Close Window)</a>
 </div>
 </body>
 </html>
