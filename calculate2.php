@@ -128,8 +128,8 @@ function initialize() {
 //echo "Host information: " . mysqli_get_host_info($link) . PHP_EOL;
 
 
-echo $_POST["geo_compare1"];
-echo $_POST['geo_compare2'];
+echo $_POST["state1"];
+echo $_POST['state2'];
 
 
 $sql = "SELECT * FROM locations WHERE city='".$city."' AND county='".$county."'";

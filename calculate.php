@@ -164,6 +164,13 @@ $('.fraction').each(function(key, value) {
 
 <hr>
 <p>
+
+<iframe src="http://192.241.201.165:3838/data/app1/" style="border: 1px solid #AAA; width: 790px; height: 460px"></iframe>
+
+
+<p>
+<hr>
+<p>
 <table class="data_table"><tr><td>
 <i>For the above student profile, if they did not graduate, these are the most likely causes: </i><p>
 

@@ -1,3 +1,11 @@
+body{
+	overflow-x: hidden;
+}
+
+body a{
+	text-decoration: none;
+}
+
 
 h1{
 	font-family: 'Architects Daughter';
@@ -12,9 +20,32 @@ color: #000000;
 }
 
 #input_controller{
-	font-family: 'Architects Daughter';
+	top: 500px;
+	left: 600px;
+	width: 500px;
+	height: auto;
+	border-radius: 15px;
 	background-color: #CCCCFF;
-	height: 500px;
+	position: absolute;
+	z-index: 6;
+	font-family: 'Architects Daughter';
+	margin: 10px;
+	padding: 10px;
+}
+
+
+#remote_controller{
+	top: 500px;
+	left: 600px;
+	width: 500px;
+	height: auto;
+	border-radius: 15px;
+	background-color: #CCCCFF;
+	position: absolute;
+	z-index: 6;
+	font-family: 'Architects Daughter';
+	margin: 10px;
+	padding: 10px;
 }
 
 #navigation_bar table{
@@ -64,18 +95,6 @@ left: 0px;
 opacity: 0.5
 }
 
-#remote_controller{
-	top: 100px;
-	width: 500px;
-	height: 300px;
-	border-radius: 15px;
-	background-color: #97abd3;
-	position: absolute;
-	z-index: 6;
-	font-family: 'Tahoma';
-	margin: 10px;
-	padding: 10px;
-}
 
 
 
@@ -129,10 +148,6 @@ opacity: 0.5
 	overflow-x: hidden;
 }
 
-#geo_selection{
-	font-size: 20px;
-	border: solid 1px;
-}
 
 #location_nav{
 	
