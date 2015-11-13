@@ -33,7 +33,7 @@ LEP_PCT<-COHORT_PCT(g$LEP_COHORT_1112, g$ALL_COHORT_1112)
 grad<-g[ , c(1:22)]
 
 census<-g[, c(1,2,4,6,8,10,12,14,16,18,20,22:341)]
-grad<-cbind(g, data.frame(cbind( MAM_PCT, MAS_PCT, MBL_PCT, MHI_PCT, MTR_PCT, MWH_PCT, CWD_PCT, ECD_PCT, LEP_PCT)))
+grad<-cbind(g, data.frame(cbind(MAM_PCT, MAS_PCT, MBL_PCT, MHI_PCT, MTR_PCT, MWH_PCT, CWD_PCT, ECD_PCT, LEP_PCT)))
 
 num_grad<-grad[ , sapply(grad, is.numeric)]
 num_census<-census[ , sapply(census, is.numeric)]
