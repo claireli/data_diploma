@@ -18,7 +18,7 @@ shinyUI(
       mainPanel(
         navbarPage(
           title = 'Tool Options',
-          tabPanel('Important Variables', dataTableOutput('Information')),
+          tabPanel('Important Variables', tableOutput('Information')),
           tabPanel('Univariate',
             selectInput("uni1", "Variable 1", c(colnames(grad_col[ , sapply(grad_col, is.numeric)]))),
             verbatimTextOutput("UnivariateFit")

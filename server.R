@@ -55,11 +55,13 @@ shinyServer(function(input, output, session) {
     }
   })
   # Generate a summary of the dataset
-  output$Information <- renderDataTable({
+  output$Information <- renderTable({
     results<-information.gain(paste(input$Rate," ~."), render_grad())
     Variable<-rownames(results)
     Importance<-data.frame(results[1])
     colnames(Importance)<-c("Importance")
     stuff<-cbind(Variable, Importance)
+    rownames(stuff)<-NULL
+    stuff[order(stuff$Importance, decreasing=TRUE),]
   })
 })
