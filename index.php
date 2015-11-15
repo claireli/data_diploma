@@ -9,61 +9,6 @@
 
 <script src="claire.js"></script>
 
-
-<style>
-.mode_choice{
-	
-	border-radius: 25px;
-	box-shadow: 5px 5px 5px #888888;
-	width: 300px;
-	height: 150px;
-	padding: 10px;
-	text-align: center;
-	font-family: "Source Sans Pro";
-	font-weight: 200;
-	color: #3878c7;
-	margin: 20px;
-	align: center;
-}
-
-.mode_choice:hover{
-	box-shadow: 5px 5px 5px #f59c1e;
-}
-
-#choice1{
-	
-	background-color: #b3d1ff;
-}
-
-#choice2{
-	
-	background-color: #e5efd4
-}
-
-#choice3{
-	
-	background-color: #c1d5a3;
-}
-
-#option_bar{
-	
-	margin: 0 auto;
-}
-
-.toggler{
-	width: 100%;
-	height: 55px;
-	background-color: #cadfaa;
-	padding: 10px;
-	font-family: "Source Sans Pro";
-	font-weight: bold;	
-}
-
-.toggler img{
-	height: 45px;
-	width: auto;
-}
-</style>
 </head>
 <body>
 
@@ -95,7 +40,15 @@
 </table>
 
 <p id="step1">
-<div id="mode1_message" class="toggler">Mode 1 selected. Please select location [Kent County selected]. Click here to continue.</div>
+<div id="mode1_message" class="toggler">
+<table><tr>
+<td width="600px">Mode 1 selected. 
+<form action="calculate.php" method="post"><p class="geo_selection">Please select location below.</p> 
+</td><td>
+
+<input type="image" src="clairrow.png" class="click_input" alt="Submit Form" />Click here to continue.</form></td></tr></table>
+</div>
+
 <div id="mode2_message" class="toggler">
 <table><tr>
 <td width="600px">Mode 2 selected. 

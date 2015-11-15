@@ -23,8 +23,7 @@
 		#chart{
 			text-align: center;
 			position: relative;
-			top: 10px;
-			left: 10px;
+
 		}
 		
 		#content{
@@ -51,7 +50,7 @@
 </div>
   <div id="content">
   <p>
-<h2>Graduation Prediction Report</h2><p>
+<h2>Historic Graduation Report 2014</h2><p>
 
 
 <?php
@@ -74,15 +73,7 @@ $city = $_POST["geo_selection"];
 
 $county = $_POST["geo_selection2"];
 
-echo "<table id='sample_profile'><tr><td colspan='2'><h3>Sample Student Profile</h3></td></tr>
-<tr><td>Gender</td><td>".$_POST["gender"]."</td></tr>
-<tr><td>Ethnicity</td><td>".$_POST["ethnicity"]."</td></tr>
-<tr><td>Economic Status</td><td>".$_POST["income_range"]."</td></tr>
-<tr><td>District</td><td>".$_POST["geo_selection"]."</td></tr>
-<tr><td>County</td><td>".$_POST["geo_selection2"]."</td></tr>
-<tr><td>State</td><td>".$_POST["esl"]."</td></tr>
-<tr><td>ESL</td><td>".$_POST["esl"]."</td></tr>
-</table>";
+
 
 $sql = "SELECT * FROM locations WHERE city='".$city."' AND county='".$county."'";
 $result = $link->query($sql);
@@ -92,7 +83,20 @@ $all_cohort =0;
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "<p><i>" .$row["ALL_RATE"]. "% of a cohort size of " . $row["ALL_COHORT"]. " from the district of " . $city ." in " . $row["State"] ." graduated in 2014.</i><br>";
+        
+		echo "<table id='sample_profile'><tr><td colspan='2'><h3>District Breakdown in 2014</h3></td></tr>
+<tr><td>Percentage of Native Americans students graduated within 4 years</td><td>". $row["MAM_RATE_1011"]."</td></tr>
+<tr><td>Percentage of Hispanic students graduated within 4 years</td><td></td></tr>
+<tr><td>Percentage of Asian & Pacific Islander students graduated within 4 years</td><td></td></tr>
+<tr><td>Percentage of Black students graduated within 4 years</td><td></td></tr>
+<tr><td>Percentage of White students graduated within 4 years</td><td></td></tr>
+<tr><td>Percentage of economically disadvantaged students graduated within 4 years</td><td></td></tr>
+<tr><td>Percentage of limited English proficiency students graduated within 4 years</td><td>".$_POST["geo_selection"]."</td></tr>
+
+</table>";
+		
+		
+		echo "<p><i>" .$row["ALL_RATE"]. "% of a cohort size of " . $row["ALL_COHORT"]. " from the district of " . $city ." in " . $row["State"] ." graduated in 2014.</i><br>";
 		$percent = $row["ALL_RATE"];
 		$all_cohort = $row["ALL_COHORT"];
 	}
@@ -106,7 +110,7 @@ $remainder=100-$percent;
 
 ?>
 
- <div id="chart"></div>
+ 
  <script>
  $( document ).ready(function() {
 $('.fraction').each(function(key, value) {
@@ -125,25 +129,16 @@ $('.fraction').each(function(key, value) {
  <br>
  <p>
  
- <table class='three_chart'>
- <tr>
- <td><h3>2014 Graduation Rates of Student's Ethnic Group</h3></td>
- <td><h3>2014 Graduation Rates of Student's Gender Group</h3></td>
- <td><h3>2014 Graduation Rates of Student's Economic Group</h3></td>
- </tr>
- <tr><td>
- 
- </td>
- 
+ <table><tr>
+ <td><div id="chart"></div></td>
  <td>
  <table border='1'>
 <tr><td><b>Average Graduation Rate</b></td><td></td></tr>
 <tr><td><b>Variance</b></td><td></td></tr>
 <tr><td><b>1 Standard Deviation</b></td><td></td></tr>
 </table>
- </td>
- 
- <td></td></tr></table>
+ </td></tr></table>
+ <p>
  <h2>At Risk Rankings</h2>
  <p><i>This is the prediction for the cohort fail rate for 2015, based off census data collected from the previous year regarding the district of <?php echo $_POST["geo_selection"] ?></i><p>
  <span class="fraction">cohort*(1-cohort_rate)/ALL*(1-all_rate)</span> =
@@ -217,7 +212,7 @@ $('.fraction').each(function(key, value) {
         var legendRectSize = 18;                                  // NEW
         var legendSpacing = 3;                                    // NEW
 
-        var color = d3.scale.category20b();
+        var color = d3.scale.category20c();
 
         var svg = d3.select('#chart')
           .append('svg')
