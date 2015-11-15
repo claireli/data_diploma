@@ -1,8 +1,6 @@
 library("shiny")
-grad_col<-read.csv("columns.csv")
-grad_states<-read.csv("states.csv")
-grad_col<-grad_col[,c(3,5:25,40:581)]
-grad_col<-subset(grad_col, select=-c(grep("MOE", colnames(grad_col), perl=TRUE)))
+grad_col<-readRDS("grad_col.rds")
+grad_states<-readRDS("grad_states.rds")
 # Define UI for dataset viewer application
 shinyUI(
   fluidPage(
@@ -13,7 +11,7 @@ shinyUI(
       sidebarPanel("Inputs",
         helpText("Choose RATE and STATE of Interest"),
         selectInput("Rate", "RATE:", c(colnames(grad_col)[c(grep("RATE_1112", colnames(grad_col), perl=TRUE))])),
-        selectInput("State", "STATE:",c("ALL STATES", as.character(grad_states$STNAM)))
+        selectInput("State", "STATE:",c("ALL STATES", grad_states$STNAM))
         ),
       mainPanel(
         navbarPage(
