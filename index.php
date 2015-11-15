@@ -84,13 +84,13 @@
 <table id="option_bar">
 <tr>
 <td>
-<a href="#step1"><div class="mode_choice" id="choice1">Mode One<p>Generate standard report on single location</div></a></td>
+<a href="#step1"><div class="mode_choice" id="choice1">Mode One<p>Generate standard report on single location, and retrieve probability for each cohort of graduation from that location.</div></a></td>
 <td>
 <a href="#step1"><div class="mode_choice" id="choice2">Mode Two<p>Generate cross comparison report on two locations</div></a></td>
-<td>
+<!--<td>
 <a href="#step1"><div class="mode_choice" id="choice3">Mode Three<p>Generate standard student profile<p>
 <i>We'll retrieve the standard statistics for a student of your input type, along with generating a report of our analysis on the student's graduation probability.</i>
-</div></a></td>
+</div></a></td>-->
 </tr>
 </table>
 
