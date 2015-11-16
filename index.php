@@ -19,10 +19,9 @@
 <div id="navigation_bar">
 <table><tr>
 <td><a href="index.php">Home</a></td>
-<td><a href="#">How To Use This Tool</a></td>
+<td><a href="howto.html">How To Use This Tool</a></td>
 <td><a href="case.html">Our Case Study & Analysis</a></td>
 <td><a href="about.html">About The Developers</a></td>
-<td>Input Controller</td>
 </tr></table>
 </div>
 
