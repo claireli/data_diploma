@@ -1,0 +1,103 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+#case_frame{
+padding: 40px;
+font-family: "Tahoma";
+}
+
+b{
+	font-family: "Architects Daughter";
+	size: 15px;
+}
+</style>
+</head>
+<body>
+<div id="header">
+<h1>Study For Increasing Graduation Rates</h1>
+</div>
+<div id="navigation_bar">
+<table><tr>
+<td><a href="index.php">Home</a></td>
+<td><a href="howto.html">How To Use This Tool</a></td>
+<td><a href="case.html">Our Case Study & Analysis</a></td>
+<td><a href="about.html">About The Developers</a></td>
+</tr></table>
+</div>
+<p>
+<div id="case_frame">
+<b>Background: </b><br>
+The Adjusted Cohort Graduation Rates ACGR is a method used to track students who enter high school together and graduate on time with a regular high school diploma within 4 years. In 2001, the national on time graduation rate stood at 71.7%. The current national graduation rate stands at 81.4%. 
+<p>
+Our goal is to reach 90% on time completion by 2020. We hope our data centric web application can help reach this milestone.
+<p>
+<b>Purpose:</b><br>
+Purpose of this analysis tool is to identify key actionable insights that can account for variation in Adjusted Cohort Graduation Rates (ACGR). We plan to communicate this information with an easy to use data driven web application founded on our results
+<p>
+<b>How it works:</b><br>
+For each state, our web application establishes the magnitude of the graduation problem by identifying the cohorts that account for the most failures. 
+For each cohort the web app considers at greatest risk of failure, the user can discover the variables that have the most predictive power in determining 
+a given cohort's graduation rate. The user can then select actionable variables from options provided by the web app and stress test the variables in 
+a linear regression model. Finally, after finding actionable variables that can improve a cohort's graduation rate, the user can determine the improvement required by the cohort to reach an overall 90% graduation rate by 2020.
+<p>
+<b>Data Used:</b><br>
+The data used is a joined graduation and census data set supplied by the Everyone Graduates Center at John Hopkins.
+<p>
+<b>About the Data:</b><br>
+Census data is collected and recorded at the tract level. A tract is a small relatively permanent statistical subdivision of a county. Using school district boundaries, the maximum overlap between school districts and census tracts was calculated and used to join the data sets.
+The graduation data contains the number of students in each cohort, the rate of graduation of each cohort, the state, county, and school district
+Census data is collected and recorded by the US Census Bureau while the graduation data is collected and recorded by the US Department of Education. 
+The census data contains information describing the population in the overlapping tract.
+<p>
+<b>Data Preparation:</b><br>
+Minor data preparation was performed. Graduation rates that were reported as ranges were changed to their median value (ie 75-85 changed to 80). Character prefixes were removed from the numeric values (ie G20 changed to20). Margins of error were stripped from the dataset to reduce the number of variables considered by the model. All the Rate values were reported in the range of  0-100. In addition, for each cohort, the percentage of the cohort was calculated (9 in total) as {COHORT}_PCT = {COHORT}_1112/ALL_COHORT_1112 (ie MAM_PCT = MAM_COHORT_1112/ALL_COHORT_1112).
+ <p>
+<b>Approach</b><br>
+Our web application functions in 3 steps.
+<p>
+<b>Step One:</b><br>
+By using current evidence on cohort graduation we can determine which cohorts are of greatest concern based on the number of students failing. Using Baye’s Theorem, we calculate the posterior probability of each cohort in the location of interest given that they did not graduate. The expression is written as P({COHORT}|NOT_GRADUATE). The quantity is calculated by (P(NOT_GRADUATE|{COHORT})*P({COHORT}))/P(NOT_GRADUATE)
+<p>
+<b>Step Two:</b><br>
+Having ranked the cohorts that are hindering the overall graduation rate, we can focus on knowing what variables predict their graduation rate. We do so by calculating the information gain of each variable in the dataset as it relates to the given cohort. The task is accomplished using the FSelector package written by Kotthoff and Romanski. The package discretizes all values, calculates entropies of each variable, and computes the information gain. Information gain is calculated by H(Class)+H(Attribute)-H(Class,Attribute). 
+<p>
+<b>Step Three:</b><br>
+The user now knowing which cohort to focus on and and which variables may predict graduation rates can now make an informed decision to use variables they find actionable. The user can test the predictive power of each of these variables in a univariate, bivariate, or multivariate linear regression. As the user selects each variable the web app provides them with a suggested course of action knowing that the variable effectively predicts graduation rate.
+<p>
+(Aside:
+Using principal component analysis, we discovered the variation of the data can be fully encompassed by 3 variables, more than that and the model will be over fit.)
+<p>
+<b>Sample Case Study: National Level</b>
+<p>
+By looking at the nation as a whole we discover the posteriors of each cohort. 
+<table><tr><td>ECD: </td><td>0.634624</td></tr>
+<tr><td>MWH: </td><td>0.411186</td></tr>
+<tr><td>MBL: </td><td>0.276183</td></tr>
+<tr><td>MHI: </td><td>0.26682</td></tr>
+<tr><td>CWD: </td><td>0.254706</td></tr>
+<tr><td>LEP: </td><td>0.1214157</td></tr>
+<tr><td>MAS: </td><td>0.038798</td></tr>
+<tr><td>MTR: </td><td>0.017467</td></tr>
+<tr><td>MAM: </td><td>0.016691</td></tr></table><p>
+
+We identify the ECD cohort to account for the majority of failures. Now which variables are actionable?
+<p>
+The top independent variables from the graduation data that predict the ECD graduation rate are MWH_RATE, CWD_RATE, and MBL_RATE. All three variables are identified as statistically significant. All three have a positive coefficient of determination. Our adjusted R squared value is 0.48 all metrics are much better than the provided benchmark result based on 3 variables alone.
+<p>
+Choosing from the census data is a little more challenging. We cherry pick what we believe to be actionable variables from the census data we first choosing, pct_RURAL_POP_CEN_2010, then pct_RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010, then pct_RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010 and pct_NH_BLk_alone_CEN_2010. Our resulting R squared value from the single variable is 0.08, considering the two variables, it is 0.081 up to 0.08295 when considering the 3 variables.
+<p>
+Taking a hybrid of MWH_RATE_1112, RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010 we attain an R square value of 0.2812, and discover all the 3 variables considered are statistically significant.
+
+
+
+</div>
+
+
+
+</body>
+</html>
