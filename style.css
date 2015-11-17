@@ -19,6 +19,19 @@ text-decoration: none;
 color: #000000;
 }
 
+h4{
+	font-family: 'Architects Daughter';
+	font-size: 15px;
+	text-align: center;
+	text-decoration: none;
+
+}
+
+h4 a{
+text-decoration: none;
+color: #000000;
+}
+
 .mode_choice{
 	
 	border-radius: 25px;

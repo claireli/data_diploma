@@ -185,27 +185,6 @@ $percent = 0;
 
 $all_cohort =0;
 
-/*if($native==NULL){
-	$native="Data Unavailable";
-}
-if($hispanic==NULL){
-	$hispanic="Data Unavailable";
-}
-if($asian==NULL){
-	$asian="Data Unavailable";
-}
-if($black==NULL){
-	$black="Data Unavailable";
-}
-if($white==NULL){
-	$white="Data Unavailable";
-}
-if($econ_dis==NULL){
-	$econ_dis="Data Unavailable";
-}
-if($esl==NULL){
-	$esl="Data Unavailable";
-}*/
 
 if($result3->num_rows > 0){
 	
@@ -301,7 +280,7 @@ $esl=$row["LEP_RATE_1112"];
 
 
 echo "<i>Select any of the options in the table below.</i><br>";
-echo "<table id='sample_profile'><tr><td colspan='2'><h3>District Breakdown in 2014</h3></td></tr>";
+echo "<table id='sample_profile'><tr><td colspan='2'><h3>District Breakdown</h3></td></tr>";
 if($native!=NULL){
 	echo "<tr><td  class='select_pie' id='select_native'>Percentage of Native Americans students graduated within 4 years</td><td>". $native."%</td></tr>";
 }

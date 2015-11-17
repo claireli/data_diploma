@@ -124,7 +124,7 @@ $( document ).ready(function() {
 </div>
   <div id="content">
   <p>
-<h2>Historic Graduation Report 2014</h2><p>
+<h2>Current Graduation Report </h2><p>
 
 
 <?php
@@ -181,7 +181,7 @@ sum( ifnull( ((1-MWH_RATE_1112/100)*MWH_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_
 sum( ifnull( ((1-CWD_RATE_1112/100)*CWD_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) CWD,
 sum( ifnull( ((1-ECD_RATE_1112/100)*ECD_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) ECD,
 sum( ifnull( ((1-LEP_RATE_1112/100)*LEP_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) LEP
- FROM grad where STNAM ='ARIZONA'";
+ FROM grad where STNAM ='".$state."'";
 
 $result = $link->query($sql);
 $result2 = $link->query($sql2);
@@ -191,27 +191,84 @@ $percent = 0;
 
 $all_cohort =0;
 
-/*if($native==NULL){
-	$native="Data Unavailable";
+if($result3->num_rows > 0){
+	
+	while($row=$result3->fetch_assoc()){
+		
+		$native_pos=$row["MAM"]; //0
+		$hispanic_pos=$row["MHI"]; //1
+		$asian_pos=$row["MAS"]; //2
+		$black_pos=$row["MBL"]; //3
+		$white_pos=$row["MWH"]; //4
+		$econ_dis_pos=$row["ECD"]; //5
+		$esl_pos=$row["LEP"]; //6
+		$mtr_pos=$row["MTR"]; //7
+		$cwd_pos=$row["CWD"]; //8
+		
+	}
+	
 }
-if($hispanic==NULL){
-	$hispanic="Data Unavailable";
+
+$a=array();
+array_push($a, $native_pos, $hispanic_pos, $asian_pos, $black_pos, $white_pos, $econ_dis_pos, $esl_pos, $mtr_pos, $cwd_pos);
+
+//echo "ARE THERE 8 ENTRIES?";
+//print_r($a);
+
+function doublemax($mylist){ 
+  $maxvalue=max($mylist); 
+  while(list($key,$value)=each($mylist)){ 
+    if($value==$maxvalue)$maxindex=$key; 
+  } 
+  return array("m"=>$maxvalue,"i"=>$maxindex); 
+} 
+
+$new_arr=doublemax($a);
+//print_r($new_arr);
+
+$highest_cohort_index=$new_arr["i"];
+$highest_cohort_value=$new_arr["m"];
+
+//echo $highest_cohort_index;
+$max_cohort_label="";
+if($highest_cohort_index==0){
+	$max_cohort_label="MAM_RATE_1112";
 }
-if($asian==NULL){
-	$asian="Data Unavailable";
+else if($highest_cohort_index==1){
+	$max_cohort_label="MHI_RATE_1112";
+	
 }
-if($black==NULL){
-	$black="Data Unavailable";
+else if($highest_cohort_index==2){
+	$max_cohort_label="MAS_RATE_1112";
+	
 }
-if($white==NULL){
-	$white="Data Unavailable";
+else if($highest_cohort_index==3){
+	$max_cohort_label="MBL_RATE_1112";
 }
-if($econ_dis==NULL){
-	$econ_dis="Data Unavailable";
+else if($highest_cohort_index==4){
+	$max_cohort_label="MWH_RATE_1112";
+	
 }
-if($esl==NULL){
-	$esl="Data Unavailable";
-}*/
+else if($highest_cohort_index==5){
+	$max_cohort_label="ECD_RATE_1112";
+}
+else if($highest_cohort_index==6){
+	$max_cohort_label="LEP_RATE_1112";
+	
+}
+else if($highest_cohort_index==7){
+	$max_cohort_label="MTR_RATE_1112";
+	
+}
+else if($highest_cohort_index==8){
+	$max_cohort_label="CWD_RATE_1112";
+}
+//echo $highest_cohort_index;
+//echo "<br>";
+//echo $max_cohort_label;
+//echo "<br>";
+//echo $highest_cohort_value;
+
 
 if ($result4->num_rows > 0) {
     // output data of each row
@@ -225,7 +282,7 @@ $white=$row["MWH_PCT"]*100;
 $econ_dis=$row["ECD_PCT"]*100;
 $esl=$row["LEP_PCT"]*100;
 
-var_dump($row);
+//var_dump($row);
 
 echo "<table id='sample_profile'><tr><td colspan='2'><h3>Population of students that are members of the below cohorts</h3></td></tr>";
 if($native!=NULL){
@@ -255,18 +312,6 @@ if($esl!=NULL){
 echo "</table>";
 	}
 }
-/*
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        
-		echo "<p><h3><i>" .$row["ALL_RATE"]. "% of a cohort size of " . $row["ALL_COHORT"]. " from the district of " . $city ." in " . $row["State"] ." graduated in 2014.</h3></i><br>";
-		$percent = $row["ALL_RATE"];
-		$all_cohort = $row["ALL_COHORT"];
-	}
-} else {
-    echo "0 results";
-}*/
 
 $remainder=100-$percent;
 
@@ -325,9 +370,6 @@ function open_pie(selected_pie){
 
  });
 </script>
- <p><br>
- <h2>
- <br>
  <p>
  
  <table id="chart_container" align="center"><tr>
@@ -355,48 +397,22 @@ function open_pie(selected_pie){
  </td>
  
  </tr></table><p>
- 
- <p>
- <h2>At Risk Rankings</h2>
- <p><i>This is the prediction for the cohort fail rate for 2015, based off census data collected from the previous year regarding the district of <?php echo $_POST["geo_selection"] ?></i><p>
- <span class="fraction">cohort*(1-cohort_rate)/ALL*(1-all_rate)</span> =
- 
- <span class="fraction">
- <?php 
-	$cohort=$all_cohort*($percent*0.01);
-	$fail_rate=$cohort * (1- ($percent * 0.01));
-	$fail_rate=$fail_rate/ 	($all_cohort*(1- ($percent * 0.01)));
- echo $cohort."*(1 - 0.". $percent . ") "?>/
- <?php echo $all_cohort."*(1 - 0.". $percent . ")" ?></span> = <span class="calc_result"><?php echo $fail_rate ?></span><p>
- 
- <i>Explanation for at risk ranking blah blah stuff asldkfjas;lkdfjsldkjf </i><p>
- 
-
-<p>
-<br><br>
 
 <hr>
 <p>
-<!--
-<iframe src="http://104.236.169.169:3838/app3/" style="border: 1px solid #AAA; width: 100%; height: 1060px"></iframe>
--->
-
-
-<p>
-
 
 <table class="data_table"><tr><td>
-We have determined the cohort that we consider at greatest risk of failure for the location of <b><?php echo $city.", in ".$county.", ".$state; ?></b>.<p>
- 
- ---------------
- <p>
+<h2>Posterior Probabilities of Failure in the State of  <b><?php echo $state; ?></b></h2><p>
+  <p>
  
 Using our analysis tool, you can discover <b>which variables have the most predictive power</b> in determining
 a given cohort's future graduation rate. Our application will assist you in determining the yearly improvement required by the cohort to reach an overall 90% graduation rate by 2020, by 
 figuring out which actionable variables can improve that cohort's graduation rate.
  <p>
 We advise to seek actionable variables for the cohort of:<br>  
-<b>[COHORT]</b>
+<b><?php 
+echo $max_cohort_label;
+?></b>
 
 and to begin with the following inputs:
 <div align="center">
@@ -404,52 +420,42 @@ and to begin with the following inputs:
 <tr><td>Rate</td>
 <td>State</td></tr>
 
-<tr><td></td>
+<tr><td><?php 
+echo $max_cohort_label;
+?></td>
 <td><?php echo $state ?></td></tr>
 
 </table>
 </div>
 <p>
-<form action="http://104.236.169.169:3838/app3/">
-<input type="submit" value="Proceed to Graduation Cohort Analysis" id="proceed" target="_blank">
-</form>
+<button onclick="open_R()" id="proceed">Proceed to Graduation Cohort Analysis</button>
+
+
 </td>
 <td>
 
 <table class="results_table">
 <?php
 
-$results_arr = array();
+		
 
-if ($result3->num_rows > 0) {
-    // output data of each row
-    while($row3 = $result3->fetch_assoc()) {
-		//var_dump($row3);
-		$results_arr[] = $row3;
 		
-		if($row3["MAM"]!=0){
-			echo "<tr><td>MAM</td><td>".$row3["MAM"]."</td></tr>";
-		}
-		else{
-			echo "<tr><td>MAM</td><td><i>Data not available</i></td></tr>";
-		}
-		
-		if($row3["MAS"]!=0){
-			echo "<tr><td>MAS</td><td>".$row3["MAS"]."</td></tr>";
+		if($asian_pos!=0){
+			echo "<tr><td>MAS</td><td>".$asian_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MAS</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["MBL"]!=0){
-			echo "<tr><td>MBL</td><td>".$row3["MBL"]."</td></tr>";
+		if($black_pos!=0){
+			echo "<tr><td>MBL</td><td>".$black_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MBL</td><td><i>Data not available</i></td></tr>";
 		}
 		
-				if($row3["MHI"]!=0){
-			echo "<tr><td>MHI</td><td>".$row3["MHI"]."</td></tr>";
+				if($hispanic_pos!=0){
+			echo "<tr><td>MHI</td><td>".$hispanic_pos."</td></tr>";
 		}
 		else{
 			echo "<tr><td>MHI</td><td><i>Data not available</i></td></tr>";
@@ -462,8 +468,8 @@ if ($result3->num_rows > 0) {
 			echo "<tr><td>MTR</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["MWH"]!=0){
-			echo "<tr><td>MWH</td><td>".$row3["MWH"]."</td></tr>";
+		if($white_pos!=0){
+			echo "<tr><td>MWH</td><td>".$white_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MWH</td><td><i>Data not available</i></td></tr>";
@@ -476,15 +482,15 @@ if ($result3->num_rows > 0) {
 			echo "<tr><td>CWD</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["ECD"]!=0){
-			echo "<tr><td>ECD</td><td>".$row3["ECD"]."</td></tr>";
+		if($econ_dis_pos!=0){
+			echo "<tr><td>ECD</td><td>".$econ_dis_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>ECD</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["LEP"]!=0){
-			echo "<tr><td>LEP</td><td>".$row3["LEP"]."</td></tr>";
+		if($esl_pos!=0){
+			echo "<tr><td>LEP</td><td>".$esl_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>LEP</td><td><i>Data not available</i></td></tr>";
@@ -502,9 +508,8 @@ if ($result3->num_rows > 0) {
 		echo $row3["LEP"]."<br>";
 		*/
 		echo "<br>";
-	}
 		
-}
+
 
 ?>
 
