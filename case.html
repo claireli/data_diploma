@@ -32,49 +32,54 @@ b{
 <p>
 <div id="case_frame">
 <b>Background: </b><br>
-The Adjusted Cohort Graduation Rates ACGR is a method used to track students who enter high school together and graduate on time with a regular high school diploma within 4 years. In 2001, the national on time graduation rate stood at 71.7%. The current national graduation rate stands at 81.4%. 
+The Adjusted Cohort Graduation Rates ACGR is a method used to track students who enter high school together and graduate on time with a regular high school diploma within 4 years. In 2001, the national on time graduation rate stood at 71.7%. The current national graduation rate stands at 81.4%.
 <p>
 Our goal is to reach 90% on time completion by 2020. We hope our data centric web application can help reach this milestone.
 <p>
 <b>Purpose:</b><br>
-Purpose of this analysis tool is to identify key actionable insights that can account for variation in Adjusted Cohort Graduation Rates (ACGR). We plan to communicate this information with an easy to use data driven web application founded on our results
+Purpose of this analysis tool is to identify key actionable insights that can account for variation in Adjusted Cohort Graduation Rates (ACGR).
 <p>
 <b>How it works:</b><br>
-For each state, our web application establishes the magnitude of the graduation problem by identifying the cohorts that account for the most failures. 
-For each cohort the web app considers at greatest risk of failure, the user can discover the variables that have the most predictive power in determining 
-a given cohort's graduation rate. The user can then select actionable variables from options provided by the web app and stress test the variables in 
-a linear regression model. Finally, after finding actionable variables that can improve a cohort's graduation rate, the user can determine the improvement required by the cohort to reach an overall 90% graduation rate by 2020.
+For each state, our web application establishes the magnitude of the graduation problem by identifying the cohorts that account for the most students not graduating. 
+For each cohort the web app considers at greatest risk of failure, the user can discover the variables that have the most predictive power in determining a given cohort&#39s graduation rate. 
+The user can then select actionable variables from the options provided and stress test the variables in a linear regression model.
 <p>
 <b>Data Used:</b><br>
 The data used is a joined graduation and census data set supplied by the Everyone Graduates Center at John Hopkins.
 <p>
 <b>About the Data:</b><br>
 Census data is collected and recorded at the tract level. A tract is a small relatively permanent statistical subdivision of a county. Using school district boundaries, the maximum overlap between school districts and census tracts was calculated and used to join the data sets.
-The graduation data contains the number of students in each cohort, the rate of graduation of each cohort, the state, county, and school district
-Census data is collected and recorded by the US Census Bureau while the graduation data is collected and recorded by the US Department of Education. 
+The graduation data contains the number of students in each cohort, the rate of graduation of each cohort, the state, county, and school district.
+Census data is collected and recorded by the US Census Bureau. The graduation data is collected and recorded by the US Department of Education. 
 The census data contains information describing the population in the overlapping tract.
 <p>
 <b>Data Preparation:</b><br>
-Minor data preparation was performed. Graduation rates that were reported as ranges were changed to their median value (ie 75-85 changed to 80). Character prefixes were removed from the numeric values (ie G20 changed to20). Margins of error were stripped from the dataset to reduce the number of variables considered by the model. All the Rate values were reported in the range of  0-100. In addition, for each cohort, the percentage of the cohort was calculated (9 in total) as {COHORT}_PCT = {COHORT}_1112/ALL_COHORT_1112 (ie MAM_PCT = MAM_COHORT_1112/ALL_COHORT_1112).
+Minor data preparation was performed. Graduation rates that were reported as ranges were changed to their median value (ie 75-85 changed to 80). Character prefixes were removed from the numeric values (ie G20 changed to20). Margins of error were stripped from the dataset to reduce the number of variables considered by the model. All the Rate values were reported in the range of 0-100. In addition, for each cohort, the percentage of the cohort was calculated (9 in total) as {COHORT}_PCT = {COHORT}_1112/ALL_COHORT_1112 (ie MAM_PCT = MAM_COHORT_1112/ALL_COHORT_1112).
  <p>
 <b>Approach</b><br>
 Our web application functions in 3 steps.
 <p>
 <b>Step One:</b><br>
-By using current evidence on cohort graduation we can determine which cohorts are of greatest concern based on the number of students failing. Using Baye’s Theorem, we calculate the posterior probability of each cohort in the location of interest given that they did not graduate. The expression is written as P({COHORT}|NOT_GRADUATE). The quantity is calculated by (P(NOT_GRADUATE|{COHORT})*P({COHORT}))/P(NOT_GRADUATE)
+By using current evidence on cohort graduation, we can determine which cohorts are of greatest concern based on the number of students currently failing. Using Bayes&#39 Theorem, we calculate the posterior probability of each cohort in the location of interest given that the cohort did not graduate. The expression is written as P({COHORT}|NOT_GRADUATE). The quantity is calculated by (P(NOT_GRADUATE|{COHORT})*P({COHORT}))/P(NOT_GRADUATE)
 <p>
 <b>Step Two:</b><br>
-Having ranked the cohorts that are hindering the overall graduation rate, we can focus on knowing what variables predict their graduation rate. We do so by calculating the information gain of each variable in the dataset as it relates to the given cohort. The task is accomplished using the FSelector package written by Kotthoff and Romanski. The package discretizes all values, calculates entropies of each variable, and computes the information gain. Information gain is calculated by H(Class)+H(Attribute)-H(Class,Attribute). 
+Having ranked the cohorts that are hindering the overall graduation rate, we can focus on discovering what variables predict their graduation rate. We do so by calculating the information gain of each variable in the dataset as it relates to the given cohort. The task is accomplished using the &#39 FSelector &#39 package written by Kotthoff and Romanski. The package discretizes all values, calculates entropies of each variable, and computes the information gain. Information gain is calculated by H(Class)+H(Attribute)-H(Class, Attribute). 
 <p>
 <b>Step Three:</b><br>
-The user now knowing which cohort to focus on and and which variables may predict graduation rates can now make an informed decision to use variables they find actionable. The user can test the predictive power of each of these variables in a univariate, bivariate, or multivariate linear regression. As the user selects each variable the web app provides them with a suggested course of action knowing that the variable effectively predicts graduation rate.
-<p>
-(Aside:
-Using principal component analysis, we discovered the variation of the data can be fully encompassed by 3 variables, more than that and the model will be over fit.)
+The user now knowing which cohort to focus on and which variables are important can now select variables they find actionable. The user can test the predictive power of each of these variables in a univariate, bivariate, or multivariate linear regression. 
 <p>
 <b>Sample Case Study: National Level</b>
 <p>
-By looking at the nation as a whole we discover the posteriors of each cohort. 
+Before delving into the full potential of the application, we consider ALL_RATE_1112 and the variables that may affect ALL_RATE_1112.
+<p>
+MWH_RATE_1112 is most important, followed by ECD_RATE_1112 and ALL_COHORT_1112. Systematically using each of these variables, we note the following results:
+<p>
+MWH_RATE_1112 univariate model reports as highly significant with a positive coefficient of determination and an adjusted R squared value of .73 surpassing benchmark results. In the bivariate model, MWH_RATE_1112 and ECD_RATE_1112 are both significant variables with positive coefficients of determination. However, the model has a reduced adjusted R squared value of .71. In the multivariate model MWH_RATE_1112, ECD_RATE_1112, and ALL_COHORT_1112 are all significant variables. MWH_RATE_1112 and ECD_RATE_1112 have positive coefficients of determination while ALL_COHORT_1112 has a negative coefficient of determination. The adjusted R Square value reaches .72.
+<p>
+What can we do with this information? With no additional information provided, we conclude that focusing on providing financial support or relief to MWH students in cohorts of large size can improve the overall graduation rate at the national level. In addition, we should consider reducing class size of these large cohorts. Studies have shown an unbalanced student teacher ratio affects school performance.
+<p>
+In addition, our model calculated the following posteriors of not graduating:
+<p>
 <table><tr><td>ECD: </td><td>0.634624</td></tr>
 <tr><td>MWH: </td><td>0.411186</td></tr>
 <tr><td>MBL: </td><td>0.276183</td></tr>
@@ -83,18 +88,25 @@ By looking at the nation as a whole we discover the posteriors of each cohort.
 <tr><td>LEP: </td><td>0.1214157</td></tr>
 <tr><td>MAS: </td><td>0.038798</td></tr>
 <tr><td>MTR: </td><td>0.017467</td></tr>
-<tr><td>MAM: </td><td>0.016691</td></tr></table><p>
-
-We identify the ECD cohort to account for the majority of failures. Now which variables are actionable?
+<tr><td>MAM: </td><td>0.016691</td></tr></table>
 <p>
-The top independent variables from the graduation data that predict the ECD graduation rate are MWH_RATE, CWD_RATE, and MBL_RATE. All three variables are identified as statistically significant. All three have a positive coefficient of determination. Our adjusted R squared value is 0.48 all metrics are much better than the provided benchmark result based on 3 variables alone.
+The ECD cohort has the highest posterior of not graduating, meaning students identifying in the ECD COHORT are most likely to not graduate compared to other cohorts. As such, we can look at the variables affecting the graduation rate of students identifying in the ECD COHORT.
 <p>
-Choosing from the census data is a little more challenging. We cherry pick what we believe to be actionable variables from the census data we first choosing, pct_RURAL_POP_CEN_2010, then pct_RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010, then pct_RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010 and pct_NH_BLk_alone_CEN_2010. Our resulting R squared value from the single variable is 0.08, considering the two variables, it is 0.081 up to 0.08295 when considering the 3 variables.
+We discover a multivariate fit of MWH_RATE_1112, CWD_RATE_1112, and MBL_RATE_1112 has a statistically significant role in the ECD_RATE_1112. All the variables have a positive coefficient of determination. The adjusted R squared value is .48.
+<p>
+If the ECD cohort accounts for most students not graduating it stands to reason, we must focus our efforts on the ECD cohort. The model suggests providing financial assistance or relief to MWH, CWD and MBL students will help improve the rate.
 <p>
 Taking a hybrid of MWH_RATE_1112, RURAL_POP_CEN_2010 and pct_Female_No_HB_CEN_2010 we attain an R square value of 0.2812, and discover all the 3 variables considered are statistically significant.
-
-
-
+<p>
+<b>State and District level:</b><br>
+<p>
+The web app can do much more.
+<p>
+A state can take action using our application, compare their report card to the national report card, and make decisions on how to improve their overall rate. 
+<p>
+We discovered graduation rates statistically vary between states, so it is much more useful for a district to compare themselves at the state level than at the national level.
+<p>
+Consider San Diego Unified School District in California. In this district, we can look at the ALL_RATE_1112 for California and see how we compare at the national and state level. Then we can follow the same procedures as before. In addition, ECD_RATE_1112 is of concern; we can look at the variables that affect the rate. If for some reason EC_RATE is unrealistic to improve, we can go down the list of posteriors and see how MHI_RATE_1112 and other rates are related to the variables in the data set. We leave it to the user to experiment with the data. 
 </div>
 
 

@@ -13,7 +13,7 @@ shinyUI(
         selectInput('Rate', "RATE:", c(colnames(grad_col)[c(grep("RATE_1112", colnames(grad_col), perl=TRUE))])),
         selectInput('State', "STATE:",c("ALL STATES", grad_states$STNAM)),
         submitButton('Submit/Refresh'),
-        helpText("Posteriors"),
+        helpText("State Failure Posteriors"),
         tableOutput('posterior')
         
         ),
