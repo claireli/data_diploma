@@ -30,7 +30,7 @@
 <td>
 <a href="#step1"><div class="mode_choice" id="choice1">Mode One<p>Generate standard report on single location, and retrieve probability for each cohort of graduation from that location.</div></a></td>
 <td>
-<a href="#step1"><div class="mode_choice" id="choice2">Mode Two<p>Generate cross comparison report on two locations</div></a></td>
+<a href="#step2"><div class="mode_choice" id="choice2">Mode Two<p>Generate standard report on entire state, and retrieve probability for each cohort of graduation</div></a></td>
 <!--<td>
 <a href="#step1"><div class="mode_choice" id="choice3">Mode Three<p>Generate standard student profile<p>
 <i>We'll retrieve the standard statistics for a student of your input type, along with generating a report of our analysis on the student's graduation probability.</i>
@@ -41,18 +41,26 @@
 <p id="step1">
 <div id="mode1_message" class="toggler">
 <table><tr>
+
 <td width="600px">Mode 1 selected. 
-<form action="calculate.php" method="post"><p class="geo_selection">Please select location below.</p> 
+<form action="calculate.php" method="post">
+<p class="geo_selection">Please select location below.</p> 
+<input type="hidden" id="geo_selection3" name="geo_selection3">
 </td><td>
 
 <input type="image" src="clairrow.png" class="click_input" alt="Submit Form" />Click here to continue.</form></td></tr></table>
 </div>
 
+<p id="step2">
 <div id="mode2_message" class="toggler">
 <table><tr>
 <td width="600px">Mode 2 selected. 
-<p class="geo_selection">Please select location below.</p> 
-</td><td><img src="clairrow.png" id="click_input">Click here to continue.</td></tr></table>
+<form action="calculate2.php" method="post">
+<p class="geo_selection5">Please select state below.</p> 
+<input type="hidden" id="geo_selection4" name="geo_selection4">
+</td><td>
+
+<input type="image" src="clairrow.png" class="click_input" alt="Submit Form" />Click here to continue.</form></td></tr></table>
 </div>
 
 <div id="mode3_message" class="toggler">
@@ -74,7 +82,7 @@ error_reporting(E_ALL);
 
 	//echo "test";
 	
-	$link = mysqli_connect("localhost", "root", "", "diploma");
+	$link = mysqli_connect("localhost", "claire", "claire", "diploma");
 	if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
@@ -202,6 +210,17 @@ function reply_click(obj)
 {
 var id = obj.id;
 //alert(id);
+//INPUT STATE INTO GEO_SELECTION3
+
+var s = document.getElementById("geo_selection3");
+console.log(s);
+s.value = id;
+
+var k = document.getElementById("geo_selection4");
+console.log(k);
+k.value = id;
+
+$( ".geo_selection5" ).html(id);
 
 retrieve_cities(id);
 
@@ -261,6 +280,9 @@ var id = obj.id;
 				 $( ".geo_selection" ).html( php_arr[state]["city"] + " in " + map_input + 
 				 "<input type='hidden' name='geo_selection' value='" + php_arr[state]["city"] + "'> " 
 				 + "<input type='hidden' name='geo_selection2' value='" +map_input+ "'>");
+				 
+				 //$( ".geo_selection5" ).html("Claire");
+				 
 			}
 		} 
 	  }

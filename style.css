@@ -137,6 +137,10 @@ color: #000000;
     padding: 10px;
 }
 
+h3{
+	font-size: 16px;
+}
+
 #chart{
 position: relative;
 }
@@ -158,6 +162,15 @@ opacity: 0.5
 }
 
 
+
+#chart_container{
+	text-align: center;
+	width: 60%;
+}
+
+#chart_container td{
+	width: 30%;
+}
 
 
 .fraction, .top, .bottom {
