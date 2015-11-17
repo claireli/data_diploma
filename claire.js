@@ -64,14 +64,14 @@ function initialize() {
             size: new google.maps.Size(150, 50)
           });
 
-          var marker = new google.maps.Marker({
+          /*var marker = new google.maps.Marker({
             position: results[0].geometry.location,
             map: map,
             title: address
           });
           google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
-          });
+          });*/
 		  
 		  
 

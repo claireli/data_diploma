@@ -46,10 +46,20 @@ $( document ).ready(function() {
 		$( "#chartbox_white" ).fadeToggle( "slow", "linear" );
 	});
 	
+
+
+	
 });
 
 </script>
 
+
+
+<script>
+function open_R() {
+    window.open("http://104.236.169.169:3838/app3", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=10, right=10, width=900, height=500");
+}
+</script>
 <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet" data-semver="3.0.1" data-require="normalize@*" />
     <style>
 		body{
@@ -124,7 +134,7 @@ $( document ).ready(function() {
 </div>
   <div id="content">
   <p>
-<h2>Historic Graduation Report 2014</h2><p>
+<h2>Current Graduation Report</h2><p>
 
 
 <?php
@@ -153,7 +163,7 @@ echo "</h4>";
 //var_dump($county);
 
 
-$sql = "SELECT * FROM locations WHERE city='".$city."' AND county='".$county."'";
+$sql = "SELECT * FROM locations WHERE city='".$city."' AND county='".$county."' AND State='".$state."'";
 $sql2 = "SELECT * FROM grad WHERE leanm11='".$city."' AND STNAM='".$state."'";
 $retrieve_posterior="SELECT
  sum( ifnull( ((1-MAM_RATE_1112/100)*MAM_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) MAM,
@@ -197,11 +207,88 @@ if($esl==NULL){
 	$esl="Data Unavailable";
 }*/
 
+if($result3->num_rows > 0){
+	
+	while($row=$result3->fetch_assoc()){
+		
+		$native_pos=$row["MAM"]; //0
+		$hispanic_pos=$row["MHI"]; //1
+		$asian_pos=$row["MAS"]; //2
+		$black_pos=$row["MBL"]; //3
+		$white_pos=$row["MWH"]; //4
+		$econ_dis_pos=$row["ECD"]; //5
+		$esl_pos=$row["LEP"]; //6
+		$mtr_pos=$row["MTR"]; //7
+		$cwd_pos=$row["CWD"]; //8
+		
+	}
+	
+}
+
+$a=array();
+array_push($a, $native_pos, $hispanic_pos, $asian_pos, $black_pos, $white_pos, $econ_dis_pos, $esl_pos, $mtr_pos, $cwd_pos);
+
+//echo "ARE THERE 8 ENTRIES?";
+//print_r($a);
+
+function doublemax($mylist){ 
+  $maxvalue=max($mylist); 
+  while(list($key,$value)=each($mylist)){ 
+    if($value==$maxvalue)$maxindex=$key; 
+  } 
+  return array("m"=>$maxvalue,"i"=>$maxindex); 
+} 
+
+$new_arr=doublemax($a);
+//print_r($new_arr);
+
+$highest_cohort_index=$new_arr["i"];
+$highest_cohort_value=$new_arr["m"];
+
+//echo $highest_cohort_index;
+$max_cohort_label="";
+if($highest_cohort_index==0){
+	$max_cohort_label="MAM_RATE_1112";
+}
+else if($highest_cohort_index==1){
+	$max_cohort_label="MHI_RATE_1112";
+	
+}
+else if($highest_cohort_index==2){
+	$max_cohort_label="MAS_RATE_1112";
+	
+}
+else if($highest_cohort_index==3){
+	$max_cohort_label="MBL_RATE_1112";
+}
+else if($highest_cohort_index==4){
+	$max_cohort_label="MWH_RATE_1112";
+	
+}
+else if($highest_cohort_index==5){
+	$max_cohort_label="ECD_RATE_1112";
+}
+else if($highest_cohort_index==6){
+	$max_cohort_label="LEP_RATE_1112";
+	
+}
+else if($highest_cohort_index==7){
+	$max_cohort_label="MTR_RATE_1112";
+	
+}
+else if($highest_cohort_index==8){
+	$max_cohort_label="CWD_RATE_1112";
+}
+//echo $highest_cohort_index;
+//echo "<br>";
+//echo $max_cohort_label;
+//echo "<br>";
+//echo $highest_cohort_value;
+
+
 if ($result2->num_rows > 0) {
     // output data of each row
     while($row = $result2->fetch_assoc()) {
-
-$a=array();
 
 $native=$row["MAM_RATE_1112"];
 $hispanic=$row["MHI_RATE_1112"];
@@ -212,56 +299,7 @@ $econ_dis=$row["ECD_RATE_1112"];
 $esl=$row["LEP_RATE_1112"];
 
 
-function doublemax($mylist){ 
-  $maxvalue=max($mylist); 
-  while(list($key,$value)=each($mylist)){ 
-    if($value==$maxvalue)$maxindex=$key; 
-  } 
-  return array("m"=>$maxvalue,"i"=>$maxindex); 
-} 
 
-array_push($a, $native, $hispanic, $asian, $black, $white, $econ_dis, $esl);
-//print_r($b);	
-//echo max($a);
-
-$new_arr=doublemax($a);
-
-//print_r($new_arr);
-//echo $new_arr["i"];
-
-$highest_cohort_index=$new_arr["i"];
-
-//echo $highest_cohort_index;
-$max_cohort_label="";
-if($highest_cohort_index==0){
-	$max_cohort_label="MAM_RATE_1112";
-}
-else if($highest_cohort_index==1){
-	$max_cohort_label="MAS_RATE_1112";
-}
-else if($highest_cohort_index==2){
-	$max_cohort_label="MBL_RATE_1112";
-}
-else if($highest_cohort_index==3){
-	$max_cohort_label="MHI_RATE_1112";
-}
-else if($highest_cohort_index==4){
-	$max_cohort_label="MTR_RATE_1112";
-}
-else if($highest_cohort_index==5){
-	$max_cohort_label="MWH_RATE_1112";
-}
-else if($highest_cohort_index==6){
-	$max_cohort_label="CWD_RATE_1112";
-}
-else if($highest_cohort_index==7){
-	$max_cohort_label="ECD_RATE_1112";
-}
-else if($highest_cohort_index==8){
-	$max_cohort_label="LEP_RATE_1112";
-}
-
-//echo $max_cohort_label;
 echo "<i>Select any of the options in the table below.</i><br>";
 echo "<table id='sample_profile'><tr><td colspan='2'><h3>District Breakdown in 2014</h3></td></tr>";
 if($native!=NULL){
@@ -370,13 +408,15 @@ function open_pie(selected_pie){
  <td>
  <?php
  
- if ($result->num_rows > 0) {
+if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
         
-		echo "<p><h3><i>" .$row["ALL_RATE"]. "% of a cohort size of " . $row["ALL_COHORT"]. " from the district of " . $city ." in " . $row["State"] ." graduated in 2014.</h3></i><br>";
+		echo "<p><h3><i>Out of " . $row["ALL_COHORT"]. " students in the cohort,  " .$row["ALL_RATE"]. "% graduated from the district of " . $city ." in " . $row["State"] ."</h3></i><br>";
 		$percent = $row["ALL_RATE"];
 		$all_cohort = $row["ALL_COHORT"];
+		
+		break;
 	}
 } else {
     echo "0 results";
@@ -416,7 +456,7 @@ function open_pie(selected_pie){
  <div id="chartbox_esl" class="chartbox"><div id="chart8" class="cohort_pie"></div></div>
  </div>
  </td></tr></table><p>
- 
+ <!--
  <p>
  <h2>At Risk Rankings</h2>
  <p><i>This is the prediction for the cohort fail rate for 2015, based off census data collected from the previous year regarding the district of <?php echo $_POST["geo_selection"] ?></i><p>
@@ -424,18 +464,18 @@ function open_pie(selected_pie){
  
  <span class="fraction">
  <?php 
-	$cohort=$all_cohort*($percent*0.01);
+	/*$cohort=$all_cohort*($percent*0.01);
 	$fail_rate=$cohort * (1- ($percent * 0.01));
 	$fail_rate=$fail_rate/ 	($all_cohort*(1- ($percent * 0.01)));
- echo $cohort."*(1 - 0.". $percent . ") "?>/
- <?php echo $all_cohort."*(1 - 0.". $percent . ")" ?></span> = <span class="calc_result"><?php echo $fail_rate ?></span><p>
+ echo $cohort."*(1 - 0.". $percent . ") "*/?>/
+ <?php //echo $all_cohort."*(1 - 0.". $percent . ")" ?></span> = <span class="calc_result"><?php //echo $fail_rate ?></span><p>
  
- <!--<i>Explanation for at risk ranking blah blah stuff asldkfjas;lkdfjsldkjf </i>--><p>
+ <i>Explanation for at risk ranking blah blah stuff asldkfjas;lkdfjsldkjf </i><p>
  
 
 <p>
 <br><br>
-
+-->
 <hr>
 <p>
 <!--
@@ -447,7 +487,7 @@ function open_pie(selected_pie){
 
 
 <table class="data_table"><tr><td>
-We have determined the ranking of cohorts that we consider at greatest risk of failure for the location of <b><?php echo $city.", in ".$county.", ".$state; ?></b>.<p>
+<h2>Posterior Probabilities of Failure at  <b><?php echo $city.", in ".$county.", ".$state; ?></b></h2><p>
   <p>
  
 Using our analysis tool, you can discover <b>which variables have the most predictive power</b> in determining
@@ -473,46 +513,34 @@ echo $max_cohort_label;
 </table>
 </div>
 <p>
-<form action="http://104.236.169.169:3838/app3/">
-<input type="submit" value="Proceed to Graduation Cohort Analysis" id="proceed" target="_blank">
-</form>
+<button onclick="open_R()" id="proceed">Proceed to Graduation Cohort Analysis</button>
+
+
 </td>
 <td>
 
 <table class="results_table">
 <?php
 
-$results_arr = array();
+		
 
-if ($result3->num_rows > 0) {
-    // output data of each row
-    while($row3 = $result3->fetch_assoc()) {
-		//var_dump($row3);
-		$results_arr[] = $row3;
 		
-		if($row3["MAM"]!=0){
-			echo "<tr><td>MAM</td><td>".$row3["MAM"]."</td></tr>";
-		}
-		else{
-			echo "<tr><td>MAM</td><td><i>Data not available</i></td></tr>";
-		}
-		
-		if($row3["MAS"]!=0){
-			echo "<tr><td>MAS</td><td>".$row3["MAS"]."</td></tr>";
+		if($asian_pos!=0){
+			echo "<tr><td>MAS</td><td>".$asian_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MAS</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["MBL"]!=0){
-			echo "<tr><td>MBL</td><td>".$row3["MBL"]."</td></tr>";
+		if($black_pos!=0){
+			echo "<tr><td>MBL</td><td>".$black_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MBL</td><td><i>Data not available</i></td></tr>";
 		}
 		
-				if($row3["MHI"]!=0){
-			echo "<tr><td>MHI</td><td>".$row3["MHI"]."</td></tr>";
+				if($hispanic_pos!=0){
+			echo "<tr><td>MHI</td><td>".$hispanic_pos."</td></tr>";
 		}
 		else{
 			echo "<tr><td>MHI</td><td><i>Data not available</i></td></tr>";
@@ -525,8 +553,8 @@ if ($result3->num_rows > 0) {
 			echo "<tr><td>MTR</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["MWH"]!=0){
-			echo "<tr><td>MWH</td><td>".$row3["MWH"]."</td></tr>";
+		if($white_pos!=0){
+			echo "<tr><td>MWH</td><td>".$white_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>MWH</td><td><i>Data not available</i></td></tr>";
@@ -539,15 +567,15 @@ if ($result3->num_rows > 0) {
 			echo "<tr><td>CWD</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["ECD"]!=0){
-			echo "<tr><td>ECD</td><td>".$row3["ECD"]."</td></tr>";
+		if($econ_dis_pos!=0){
+			echo "<tr><td>ECD</td><td>".$econ_dis_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>ECD</td><td><i>Data not available</i></td></tr>";
 		}
 		
-		if($row3["LEP"]!=0){
-			echo "<tr><td>LEP</td><td>".$row3["LEP"]."</td></tr>";
+		if($esl_pos!=0){
+			echo "<tr><td>LEP</td><td>".$esl_pos."</td></tr>";
 		}
 				else{
 			echo "<tr><td>LEP</td><td><i>Data not available</i></td></tr>";
@@ -565,9 +593,8 @@ if ($result3->num_rows > 0) {
 		echo $row3["LEP"]."<br>";
 		*/
 		echo "<br>";
-	}
 		
-}
+
 
 ?>
 
@@ -578,9 +605,6 @@ if ($result3->num_rows > 0) {
 </tr></table>
 </div>
 
-
-
-
     <script data-require="d3@*" data-semver="3.4.6" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
     <script>
       (function(d3) {
@@ -588,7 +612,7 @@ if ($result3->num_rows > 0) {
 
         var dataset = [
           { label: 'Successfully Graduated', count: <?php echo $percent ?> }, 
-          { label: 'Did Not Graduate', count: <?php echo $remainder ?> },
+          { label: 'Did Not Graduate', count: <?php echo $remainder-$percent ?> },
         ];
 
         var width = 360;

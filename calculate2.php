@@ -181,7 +181,7 @@ sum( ifnull( ((1-MWH_RATE_1112/100)*MWH_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_
 sum( ifnull( ((1-CWD_RATE_1112/100)*CWD_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) CWD,
 sum( ifnull( ((1-ECD_RATE_1112/100)*ECD_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) ECD,
 sum( ifnull( ((1-LEP_RATE_1112/100)*LEP_COHORT_1112), 0) )/sum( ifnull( ((1-ALL_RATE_1112/100)*ALL_COHORT_1112), 0) ) LEP
- FROM grad where STNAM ='".$state."' AND leanm11='".$city."'";
+ FROM grad where STNAM ='ARIZONA'";
 
 $result = $link->query($sql);
 $result2 = $link->query($sql2);

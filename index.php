@@ -241,20 +241,27 @@ var id = obj.id;
 				
 				var map_input = (JSON.stringify(php_arr[state]["county"]).replace("\"", "" )).replace("\"", "" );
 				console.log(map_input);
-				 alert("GEOCODING: " + map_input);	
+				 //alert("GEOCODING: " + map_input);	
 				 chosen_location1=true;
 				 console.log(chosen_location1);
 				 // THIS IS WHERE YOU CHANGE THE MAP! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!! !*!*!*!**!!*!*!*!*!// !*!*!*!
 				   
 				   var address = map_input;
 				   
-				   geocoder.geocode( { 'address': address}, function(results, status) {
+					geocoder.geocode( { 'address': address}, function(results, status) {
 						if (status == google.maps.GeocoderStatus.OK) {
 							map.setCenter(results[0].geometry.location);
+							
+							console.log("placing marker");
+							
+							//NEED TO CLEAR ALL OTHER MARKERS HERE
 							var marker = new google.maps.Marker({
 								map: map,
 								position: results[0].geometry.location
+								
 							});
+							
+							last_maker=marker;
 						}	 
 						else {
 							alert("Geocode was not successful for the following reason: " + status);
@@ -262,18 +269,7 @@ var id = obj.id;
 	  
 				   });
 				   
-				   var lato = new google.maps.LatLng(33.081224, -117.225205);
-				 
-				 
-				 var marker = new google.maps.Marker({
-					position: lato,
-					map: map,
-					title:"Hello World!"
-				 });
 
-				// To add the marker to the map, call setMap();
-				marker.setMap(map);
-				map.setCenter(marker.getPosition());
 				 
 				 $("#follow").remove();
 				 
