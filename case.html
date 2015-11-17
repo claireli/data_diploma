@@ -19,8 +19,48 @@
 <td><a href="about.html">About The Developers</a></td>
 </tr></table>
 </div>
+
+<h2>Background:</h2>
 <p>
-blah blah blah
-charts
+The Adjusted Cohort Graduation Rates ACGR is a method used to track students who enter high school together and graduate on time with a regular high school diploma within 4 years. In 2001, the national on time graduation rate stood at 71.7%. The current national graduation rate stands at 81.4%. 
+<p>
+Our goal is to reach 90% on time completion by 2020. We hope our data centric web application can help reach this milestone.
+<h2>Purpose:</h2>
+<p>
+Purpose of this analysis tool is to identify key actionable insights that can account for variation in Adjusted Cohort Graduation Rates (ACGR). 
+<h2>How it works:</h2>
+<p>
+For each state, our web application establishes the magnitude of the graduation problem by identifying the cohorts that account for the most failures. For each cohort the web app considers at greatest risk of failure, the user can discover the variables that have the most predictive power in determining a given cohort’s graduation rate. The user can then select actionable variables from the options provided and stress test the variables in a linear regression model. Finally, after finding actionable variables that can improve a cohort’s graduation rate, the user can determine the yearly improvement required by the cohort to bring the overall graduation rate to 90% by 2020.
+</h2>Data Used:</h2>
+The data used is a joined graduation and census data set supplied by the Everyone Graduates Center at John Hopkins.
+<h2>About the Data:</h2>
+<p>
+Census data is collected and recorded at the tract level. A tract is a small relatively permanent statistical subdivision of a county. Using school district boundaries, the maximum overlap between school districts and census tracts was calculated and used to join the data sets.
+The graduation data contains the number of students in each cohort, the rate of graduation of each cohort, the state, county, and school district.
+Census data is collected and recorded by the US Census Bureau while the graduation data is collected and recorded by the US Department of Education. 
+The census data contains information describing the population in the overlapping tract.
+<h2>Data Preparation:</h2>
+<p>
+Minor data preparation was performed. Graduation rates that were reported as ranges were changed to their median value (ie 75-85 changed to 80). Character prefixes were removed from the numeric values (ie G20 changed to20). Margins of error were stripped from the dataset to reduce the number of variables considered by the model. All the Rate values were reported in the range of 0-100. In addition, for each cohort, the percentage of the cohort was calculated (9 in total) as {COHORT}_PCT = {COHORT}_1112/ALL_COHORT_1112 (ie MAM_PCT = MAM_COHORT_1112/ALL_COHORT_1112).
+<h2>Approach</h2>
+<p>
+Our web application functions in 4 steps.
+<p>
+<i>Step 1:</i>
+By using current evidence on cohort graduation we can determine which cohorts are of greatest concern based on the number of students currently failing. Using Baye’s Theorem, we calculate the posterior probability of each cohort in the location of interest given that they did not graduate. The expression is written as P({COHORT}|NOT_GRADUATE). The quantity is calculated by (P(NOT_GRADUATE|{COHORT})*P({COHORT}))/P(NOT_GRADUATE)
+<p>
+<i>Step 2:</i>
+Having ranked the cohorts that are hindering the overall graduation rate, we can focus on discovering what variables predict their graduation rate. We do so by calculating the information gain of each variable in the dataset as it relates to the given cohort. The task is accomplished using the FSelector package written by Kotthoff and Romanski. The package discretizes all values, calculates entropies of each variable, and computes the information gain. Information gain is calculated by H(Class)+H(Attribute)-H(Class,Attribute). 
+<p>
+<i>Step 3:</i>
+The user now knowing which cohort to focus on and and which variables are important can now select variables they find actionable. The user can test the predictive power of each of these variables in a univariate, bivariate, or multivariate linear regression. As the user selects each variable the web app provides them with a suggested course of action knowing that the variable effectively predicts graduation rate.
+<p>
+<i>Step 4:</i>
+Having completed the analysis, discovered which cohort to focus on, and which actionable variables predict graduation rate of the cohort, the user can then discover the rate at which improvement of graduation must take place in order to reach 90% on time completion by 2020.
+
+
+
+
+
 </body>
 </html>
